@@ -4,11 +4,10 @@ import { getContacts, newContact, removeContact } from './operations';
 export const contactsSlice = createSlice({
   name: 'contacts',
   initialState: {
-    contacts: {
-      items: [],
-      isLoading: false,
-      error: null,
-    },
+    items: [],
+    isLoading: false,
+    error: null,
+
     filter: '',
   },
   reducers: {
@@ -19,17 +18,17 @@ export const contactsSlice = createSlice({
   extraReducers: builder => {
     builder
       .addCase(newContact.fulfilled, (state, action) => {
-        state.contacts.items = [...state.contacts.items, action.payload];
+        state.items = [...state.items, action.payload];
       })
 
       .addCase(removeContact.fulfilled, (state, action) => {
-        state.contacts.items = state.contacts.items.filter(
+        state.items = state.items.filter(
           contact => contact.id !== action.payload
         );
       })
 
       .addCase(getContacts.fulfilled, (state, action) => {
-        state.contacts.items = action.payload;
+        state.items = action.payload;
       })
       .addCase(getContacts.rejected, handleRejected)
       .addMatcher(action => action.type.endsWith('pending'), handlePending)
@@ -39,14 +38,14 @@ export const contactsSlice = createSlice({
 });
 
 const handlePending = state => {
-  state.contacts.isLoading = true;
+  state.isLoading = true;
 };
 const handleRejected = (state, action) => {
-  state.contacts.isLoading = false;
-  state.contacts.error = action.error.message;
+  state.isLoading = false;
+  state.error = action.error.message;
 };
 const handleFulfilled = state => {
-  state.contacts.isLoading = false;
-  state.contacts.error = null;
+  state.isLoading = false;
+  state.error = null;
 };
 export const { changeFilter } = contactsSlice.actions;

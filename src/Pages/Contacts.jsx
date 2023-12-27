@@ -1,13 +1,14 @@
-import PhoneBook from './PhoneBook/PhoneBook';
-import Section from './Section/Section';
-import ContactsList from './ContactsList/ContactsList';
-import SearchFilter from './SearchFilter/SearchFilter';
+import ContactsList from 'components/ContactsList/ContactsList';
+import { Container } from 'components/Container/Container';
+import PhoneBook from 'components/PhoneBook/PhoneBook';
+import SearchFilter from 'components/SearchFilter/SearchFilter';
+import Section from 'components/Section/Section';
 import { useEffect } from 'react';
-import { getContacts } from '../redux/contacts/operations';
 import { useDispatch, useSelector } from 'react-redux';
+import { getContacts } from '../redux/contacts/operations';
 import { selectError, selectIsLoading } from '../redux/contacts/selectors';
 
-const App = () => {
+const Contacts = () => {
   const isLoading = useSelector(selectIsLoading);
   const error = useSelector(selectError);
   const dispatch = useDispatch();
@@ -15,9 +16,8 @@ const App = () => {
   useEffect(() => {
     dispatch(getContacts());
   }, [dispatch]);
-
   return (
-    <div>
+    <Container>
       <Section title={'PhoneBook'}>
         <PhoneBook />
       </Section>
@@ -27,8 +27,8 @@ const App = () => {
       </Section>
       {isLoading && <div>Loading</div>}
       {error && <p>{error}</p>}
-    </div>
+    </Container>
   );
 };
 
-export default App;
+export default Contacts;
